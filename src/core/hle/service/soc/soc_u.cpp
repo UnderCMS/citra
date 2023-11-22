@@ -1011,6 +1011,7 @@ void SOC_U::SockAtMark(Kernel::HLERequestContext& ctx) {
 #else
 #ifdef ANDROID
     func_res = 0;
+    LOG_WARNING(Service_SOC, "(STUBBED) called");
 #else
     func_res = ::sockatmark(holder.socket_fd);
 #endif
