@@ -423,6 +423,7 @@ struct Values {
 
     // Core
     Setting<bool> use_cpu_jit{true, "use_cpu_jit"};
+    Setting<bool> delay_main_thread_start{true, "delay_main_thread_start"};
     SwitchableSetting<s32, true> cpu_clock_percentage{100, 5, 400, "cpu_clock_percentage"};
     SwitchableSetting<bool> is_new_3ds{true, "is_new_3ds"};
 

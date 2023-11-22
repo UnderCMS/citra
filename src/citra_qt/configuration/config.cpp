@@ -450,6 +450,7 @@ void Config::ReadCoreValues() {
 
     if (global) {
         ReadBasicSetting(Settings::values.use_cpu_jit);
+        ReadBasicSetting(Settings::values.delay_main_thread_start);
     }
 
     qt_config->endGroup();
@@ -972,6 +973,7 @@ void Config::SaveCoreValues() {
 
     if (global) {
         WriteBasicSetting(Settings::values.use_cpu_jit);
+        WriteBasicSetting(Settings::values.delay_main_thread_start);
     }
 
     qt_config->endGroup();

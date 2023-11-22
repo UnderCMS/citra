@@ -219,6 +219,25 @@
      </layout>
     </widget>
    </item>
+    <item>
+      <widget class="QGroupBox" name="groupBox_5">
+        <property name="title">
+          <string>Miscellaneus</string>
+        </property>
+        <layout class="QGridLayout" name="gridLayout_2">
+          <item row="1" column="0">
+            <widget class="QCheckBox" name="delay_main_thread_start">
+              <property name="toolTip">
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Introduces a random delay to the first ever launched app thread, which helps randomness seeding from the system tick. If lle system modules are enabled, the delay will be increased. Disable for more consistent boot times.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              </property>
+              <property name="text">
+                <string>Delay app main thread start</string>
+              </property>
+            </widget>
+          </item>
+        </layout>
+      </widget>
+    </item>
    <item>
     <widget class="QLabel" name="label_cpu_clock_info">
      <property name="text">
