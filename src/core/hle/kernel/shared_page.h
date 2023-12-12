@@ -53,20 +53,20 @@ using MacAddress = std::array<u8, 6>;
 constexpr MacAddress DefaultMac = {0x40, 0xF4, 0x07, 0x00, 0x00, 0x00};
 
 enum class WifiLinkLevel : u8 {
-    OFF = 0,
-    POOR = 1,
-    GOOD = 2,
-    BEST = 3,
+    Off = 0,
+    Poor = 1,
+    Good = 2,
+    Best = 3,
 };
 
 enum class WifiState : u8 {
-    INVALID = 0,
-    ENABLED = 1,
-    INTERNET = 2,
-    LOCAL1 = 3,
-    LOCAL2 = 4,
-    LOCAL3 = 6,
-    DISABLED = 7,
+    Invalid = 0,
+    Enabled = 1,
+    Internet = 2,
+    Local1 = 3,
+    Local2 = 4,
+    Local3 = 6,
+    Disabled = 7,
 };
 
 struct SharedPageDef {

@@ -118,19 +118,27 @@ void Module::Interface::GetCurrentAPInfo(Kernel::HLERequestContext& ctx) {
     }
 
     constexpr const char* citra_ap = "Citra_AP";
-    constexpr s16 good_signal_strength = -40; // Decibels
-    constexpr u8 unknown1_value = 5;
+    constexpr s16 good_signal_strength = 60;
+    constexpr u8 unknown1_value = 6;
+    constexpr u8 unknown2_value = 5;
+    constexpr u8 unknown3_value = 5;
+    constexpr u8 unknown4_value = 0;
 
     SharedPage::Handler& shared_page = ac->kernel.GetSharedPageHandler();
     SharedPage::MacAddress mac = shared_page.GetMacAddress();
 
-    APInfo info{};
-    std::strcpy(info.ssid.data(), citra_ap);
-    info.ssid_len = static_cast<u32>(std::strlen(citra_ap));
-    info.bssid = mac;
-    info.signal_strength = good_signal_strength;
-    info.link_level = static_cast<u16>(shared_page.GetWifiLinkLevel());
-    info.unknown1 = unknown1_value;
+    APInfo info{
+        .ssid_len = static_cast<u32>(std::strlen(citra_ap)),
+        .bssid = mac,
+        .padding = 0,
+        .signal_strength = good_signal_strength,
+        .link_level = static_cast<u8>(shared_page.GetWifiLinkLevel()),
+        .unknown1 = unknown1_value,
+        .unknown2 = unknown2_value,
+        .unknown3 = unknown3_value,
+        .unknown4 = unknown4_value,
+    };
+    std::strncpy(info.ssid.data(), citra_ap, info.ssid.size());
 
     std::vector<u8> out_info(len);
     std::memcpy(out_info.data(), &info, std::min(len, static_cast<u32>(sizeof(info))));
@@ -273,7 +281,7 @@ void Module::Interface::SetClientVersion(Kernel::HLERequestContext& ctx) {
 }
 
 u32 Module::Interface::ConnectFromHLE() {
-    u32 new_fake_pid = ++ac->current_fake_pid;
+    const u32 new_fake_pid = ++ac->current_fake_pid;
     ac->Connect(new_fake_pid);
     return new_fake_pid;
 }
@@ -297,11 +305,11 @@ void Module::Connect(u32 pid) {
         SharedPage::Handler& shared_page = kernel.GetSharedPageHandler();
         const bool can_access_internet = CanAccessInternet();
         if (can_access_internet) {
-            shared_page.SetWifiState(SharedPage::WifiState::INTERNET);
-            shared_page.SetWifiLinkLevel(SharedPage::WifiLinkLevel::BEST);
+            shared_page.SetWifiState(SharedPage::WifiState::Internet);
+            shared_page.SetWifiLinkLevel(SharedPage::WifiLinkLevel::Best);
         } else {
-            shared_page.SetWifiState(SharedPage::WifiState::ENABLED);
-            shared_page.SetWifiLinkLevel(SharedPage::WifiLinkLevel::OFF);
+            shared_page.SetWifiState(SharedPage::WifiState::Enabled);
+            shared_page.SetWifiLinkLevel(SharedPage::WifiLinkLevel::Off);
         }
     }
 
@@ -314,7 +322,6 @@ void Module::Connect(u32 pid) {
 }
 
 void Module::Disconnect(u32 pid) {
-
     if (close_event) {
         close_event->SetName("AC:close_event");
         close_event->Signal();
@@ -335,8 +342,8 @@ void Module::Disconnect(u32 pid) {
 
         // TODO(PabloMK7) Move shared page modification to NWM once it is implemented.
         SharedPage::Handler& shared_page = kernel.GetSharedPageHandler();
-        shared_page.SetWifiState(SharedPage::WifiState::ENABLED);
-        shared_page.SetWifiLinkLevel(SharedPage::WifiLinkLevel::OFF);
+        shared_page.SetWifiState(SharedPage::WifiState::Enabled);
+        shared_page.SetWifiLinkLevel(SharedPage::WifiLinkLevel::Off);
     }
 }
 
@@ -377,6 +384,7 @@ void Module::serialize(Archive& ar, const unsigned int) {
     ar& close_result_32;
     close_result.raw = close_result_32;
     ar& connected_pids;
+    ar& current_fake_pid;
     // default_config is never written to
 }
 

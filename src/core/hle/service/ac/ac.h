@@ -248,10 +248,11 @@ protected:
         std::array<u8, 0x6> bssid;
         u16 padding;
         s16 signal_strength;
-        u16 link_level;
+        u8 link_level;
         u8 unknown1;
         u8 unknown2;
-        u16 unknown3;
+        u8 unknown3;
+        u16 unknown4;
     };
     static_assert(sizeof(APInfo) == 0x34, "Invalid APInfo size");
 

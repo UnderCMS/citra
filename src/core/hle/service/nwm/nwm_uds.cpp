@@ -576,8 +576,8 @@ void NWM_UDS::Shutdown(Kernel::HLERequestContext& ctx) {
     recv_buffer_memory.reset();
 
     SharedPage::Handler& shared_page = Core::System::GetInstance().Kernel().GetSharedPageHandler();
-    shared_page.SetWifiLinkLevel(SharedPage::WifiLinkLevel::OFF);
-    shared_page.SetWifiState(SharedPage::WifiState::ENABLED);
+    shared_page.SetWifiLinkLevel(SharedPage::WifiLinkLevel::Off);
+    shared_page.SetWifiState(SharedPage::WifiState::Enabled);
 
     IPC::RequestBuilder rb = rp.MakeBuilder(1, 0);
     rb.Push(RESULT_SUCCESS);
@@ -672,8 +672,8 @@ ResultVal<std::shared_ptr<Kernel::Event>> NWM_UDS::Initialize(
     }
 
     SharedPage::Handler& shared_page = Core::System::GetInstance().Kernel().GetSharedPageHandler();
-    shared_page.SetWifiLinkLevel(SharedPage::WifiLinkLevel::BEST);
-    shared_page.SetWifiState(SharedPage::WifiState::LOCAL1);
+    shared_page.SetWifiLinkLevel(SharedPage::WifiLinkLevel::Best);
+    shared_page.SetWifiState(SharedPage::WifiState::Local1);
 
     return connection_status_event;
 }

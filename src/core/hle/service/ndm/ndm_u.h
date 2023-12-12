@@ -222,6 +222,8 @@ private:
      */
     void ClearHalfAwakeMacFilter(Kernel::HLERequestContext& ctx);
 
+    void ACConnectCallback(std::uintptr_t user_data, int cycles_late);
+
     void PostInstallCallback() override;
 
     enum class Daemon : u32 {
@@ -273,7 +275,7 @@ private:
     u32 scan_interval = DEFAULT_SCAN_INTERVAL;
     u32 retry_interval = DEFAULT_RETRY_INTERVAL;
     bool daemon_lock_enabled = false;
-    u32 ac_fake_pid;
+    u32 ac_fake_pid = 0;
 
     template <class Archive>
     void serialize(Archive& ar, const unsigned int) {
