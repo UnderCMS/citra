@@ -424,10 +424,8 @@ std::shared_ptr<Thread> SetupMainThread(KernelSystem& kernel, u32 entry_point, u
     const bool is_lle_service =
         static_cast<u32>(owner_process->codeset->program_id >> 32) == system_module_tid_high;
 
-    s64 sleep_base_time_ns;
-    if (is_lle_service || !Settings::values.delay_main_thread_start) {
-        sleep_base_time_ns = 0;
-    } else {
+    s64 sleep_base_time_ns = 0;
+    if (!is_lle_service && Settings::values.delay_main_thread_start) {
         if (kernel.GetAppMainThreadExtendedSleep()) {
             sleep_base_time_ns = sleep_app_thread_base_ns;
             kernel.SetAppMainThreadExtendedSleep(false);

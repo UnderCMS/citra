@@ -345,7 +345,7 @@ public:
         main_thread_extended_sleep = requires_sleep;
     }
 
-    bool GetAppMainThreadExtendedSleep() {
+    bool GetAppMainThreadExtendedSleep() const {
         return main_thread_extended_sleep;
     }
 
@@ -397,6 +397,12 @@ private:
      */
     std::recursive_mutex hle_lock;
 
+    /*
+     * Flags non system module main threads to wait a bit before running. On real hardware,
+     * system modules have plenty of time to load before the game is loaded, but on citra they
+     * start at the same time as the game. The artificial wait gives system modules some time
+     * to load and setup themselves before the game starts.
+     */
     bool main_thread_extended_sleep = false;
 
     friend class boost::serialization::access;
