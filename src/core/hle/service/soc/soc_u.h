@@ -170,6 +170,7 @@ private:
     void serialize(Archive& ar, const unsigned int) {
         ar& boost::serialization::base_object<Kernel::SessionRequestHandler>(*this);
         ar& created_sockets;
+        ar& initialized_processes;
     }
     friend class boost::serialization::access;
 };
