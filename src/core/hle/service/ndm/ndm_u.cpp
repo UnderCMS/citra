@@ -221,8 +221,11 @@ void NDM_U::ACConnectCallback(std::uintptr_t user_data, int cycles_late) {
 
 void NDM_U::PostInstallCallback() {
     // TODO(PabloMK7) Figure out how and when NDM calls AC::ConnectAsync
-    // during its initialization process. For now, fake a connection after 500 ms.
+    // and figure out with which flags and timing.
 
+    // TODO(PabloMK7) Enable back this code once this is handled properly,
+    // as currently it's causing issues in some games.
+    /*
     Core::Timing& timing = Core::System::GetInstance().CoreTiming();
 
     using namespace std::placeholders;
@@ -230,6 +233,7 @@ void NDM_U::PostInstallCallback() {
         "NDM_U::ConnectAC", std::bind(&NDM_U::ACConnectCallback, this, _1, _2));
 
     timing.ScheduleEvent(nsToCycles(static_cast<u64>(500'000'000ULL)), connect_event, 0, 0);
+    */
 }
 
 NDM_U::NDM_U() : ServiceFramework("ndm:u", 6) {
